@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Rewards - SustainABag</title>
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #eafaf1;
+            --medium-green: #c8e6c9;
+            --dark-green: #1b5e20;
+            --accent-green: #388e3c;
+            --text-dark: #333;
+            --text-light: #555;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .rewards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .rewards-header {
+            background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+            color: white;
+            padding: 80px 20px 50px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rewards-header h1 {
+            font-size: 2.8rem;
+            margin: 0 0 15px 0;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .rewards-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .user-welcome {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--medium-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            border: 3px solid white;
+        }
+        
+        /* Points Summary */
+        .points-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .points-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .points-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .points-card.total {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+        }
+        
+        .points-card.available {
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+        }
+        
+        .points-card.pending {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+        
+        .points-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin: 10px 0;
+            line-height: 1;
+        }
+        
+        .points-label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: var(--medium-green);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-green);
+            border-radius: 10px;
+            width: 65%; /* Example progress */
+        }
+        
+        /* Rewards Section */
+        .section-title {
+            color: var(--primary-green);
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--medium-green);
+            font-size: 2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background-color: var(--primary-green);
+        }
+        
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .reward-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .reward-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reward-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-green);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        .reward-image {
+            height: 180px;
+            background: linear-gradient(135deg, var(--light-green), #d0e8d0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary-green);
+        }
+        
+        .reward-content {
+            padding: 25px;
+        }
+        
+        .reward-title {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+            margin-bottom: 15px;
+        }
+        
+        .reward-points {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+        
+        .points-icon {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+        
+        .reward-description {
+            margin-bottom: 25px;
+            color: var(--text-light);
+        }
+        
+        .reward-button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .reward-button:hover {
+            background: var(--dark-green);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reward-button.redeemed {
+            background: var(--text-light);
+            cursor: not-allowed;
+        }
+        
+        /* History Section */
+        .history-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--medium-green);
+            margin-bottom: 30px;
+        }
+        
+        .tab-button {
+            padding: 12px 25px;
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            color: var(--primary-green);
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-green);
+        }
+        
+        .history-list {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--medium-green);
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-info {
+            flex: 2;
+        }
+        
+        .history-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-green);
+            margin-bottom: 5px;
+        }
+        
+        .history-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .history-points {
+            flex: 1;
+            text-align: right;
+            font-weight: bold;
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+        
+        .history-points.negative {
+            color: #e53935;
+        }
+        
+        .history-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .history-content {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Impact Section */
+        .impact-section {
+            background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .impact-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+        
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .impact-stat {
+            text-align: center;
+        }
+        
+        .impact-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .impact-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .rewards-header {
+                padding: 60px 20px 40px;
+            }
+            
+            .rewards-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .points-value {
+                font-size: 2.8rem;
+            }
+            
+            .history-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+            
+            .history-item {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .history-points {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="rewards-header">
+        <h1>Your SustainABag Rewards</h1>
+        <p>Your sustainable choices are making a difference - and earning you great rewards!</p>
+        
+        <div class="user-welcome">
+            <div class="user-avatar">MJ</div>
+            <div>
+                <h3>Welcome, Maria Johnson!</h3>
+                <p>Frequent Traveler Member</p>
+            </div>
+        </div>
+    </header>
+    
+    <div class="rewards-container">
+        <!-- Points Summary -->
+        <div class="points-summary">
+            <div class="points-card total">
+                <div class="card-title">Total Points</div>
+                <div class="points-value">1,850</div>
+                <div class="points-label">Lifetime Points Earned</div>
+            </div>
+            
+            <div class="points-card available">
+                <div class="card-title">Available Points</div>
+                <div class="points-value">1,250</div>
+                <div class="points-label">Ready to Redeem</div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Current Tier: Explorer</span>
+                        <span>Next Tier: 250 pts</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="points-card pending">
+                <div class="card-title">Pending Points</div>
+                <div class="points-value">150</div>
+                <div class="points-label">From recent donations</div>
+            </div>
+        </div>
+        
+        <!-- Available Rewards -->
+        <h2 class="section-title">Available Rewards</h2>
+        <div class="rewards-grid">
+            <div class="reward-card">
+                <div class="reward-badge">Popular</div>
+                <div class="reward-image">✈️</div>
+                <div class="reward-content">
+                    <h3 class="reward-title">Airport Lounge Pass</h3>
+                    <div class="reward-points">
+                        <span class="points-icon">★</span>
+                        <span>500 points</span>
+                    </div>
+                    <p class="reward-description">Enjoy 3 hours of comfort in any participating airport lounge worldwide. Includes complimentary snacks and beverages.</p>
+                    <button class="reward-button">Redeem Now</button>
+                </div>
+            </div>
+            
+            <div class="reward-card">
+                <div class="reward-badge">New</div>
+                <div class="reward-image">🛍️</div>
+                <div class="reward-content">
+                    <h3 class="reward-title">Eco Travel Kit</h3>
+                    <div class="reward-points">
+                        <span class="points-icon">★</span>
+                        <span>750 points</span>
+                    </div>
+                    <p class="reward-description">Premium sustainable travel kit including bamboo utensils, reusable water bottle, and organic cotton toiletry bag.</p>
+                    <button class="reward-button">Redeem Now</button>
+                </div>
+            </div>
+            
+            <div class="reward-card">
+                <div class="reward-image">🌱</div>
+                <div class="reward-content">
+                    <h3 class="reward-title">Carbon Offset Credit</h3>
+                    <div class="reward-points">
+                        <span class="points-icon">★</span>
+                        <span>250 points</span>
+                    </div>
+                    <p class="reward-description">Offset 500 miles of your travel carbon footprint. Contribute to reforestation projects worldwide.</p>
+                    <button class="reward-button">Redeem Now</button>
+                </div>
+            </div>
+            
+            <div class="reward-card">
+                <div class="reward-badge">Limited</div>
+                <div class="reward-image">🏨</div>
+                <div class="reward-content">
+                    <h3 class="reward-title">Eco-Hotel Discount</h3>
+                    <div class="reward-points">
+                        <span class="points-icon">★</span>
+                        <span>1,000 points</span>
+                    </div>
+                    <p class="reward-description">Get 20% off your next stay at any of our partner eco-friendly hotels worldwide. Valid for 6 months.</p>
+                    <button class="reward-button">Redeem Now</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rewards History -->
+        <h2 class="section-title">Your Rewards History</h2>
+        <div class="history-tabs">
+            <button class="tab-button active">All</button>
+            <button class="tab-button">Earned</button>
+            <button class="tab-button">Redeemed</button>
+            <button class="tab-button">Expired</button>
+        </div>
+        
+        <div class="history-list">
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-icon">👕</div>
+                    <div class="history-info">
+                        <div class="history-title">Clothing Donation - JFK Airport</div>
+                        <div class="history-date">July 8, 2025</div>
+                    </div>
+                </div>
+                <div class="history-points">+150 pts</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-icon">🛍️</div>
+                    <div class="history-info">
+                        <div class="history-title">Redeemed: Eco Travel Kit</div>
+                        <div class="history-date">June 28, 2025</div>
+                    </div>
+                </div>
+                <div class="history-points negative">-750 pts</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-icon">👕</div>
+                    <div class="history-info">
+                        <div class="history-title">Clothing Donation - LAX Airport</div>
+                        <div class="history-date">June 15, 2025</div>
+                    </div>
+                </div>
+                <div class="history-points">+200 pts</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-icon">✈️</div>
+                    <div class="history-info">
+                        <div class="history-title">Redeemed: Lounge Access Pass</div>
+                        <div class="history-date">June 2, 2025</div>
+                    </div>
+                </div>
+                <div class="history-points negative">-500 pts</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-icon">👕</div>
+                    <div class="history-info">
+                        <div class="history-title">Clothing Donation - Heathrow</div>
+                        <div class="history-date">May 18, 2025</div>
+                    </div>
+                </div>
+                <div class="history-points">+250 pts</div>
+            </div>
+        </div>
+        
+        <!-- Impact Section -->
+        <div class="impact-section">
+            <h2 class="impact-title">Your Sustainability Impact</h2>
+            <p>Thanks to your donations and sustainable choices, you've made a real difference!</p>
+            
+            <div class="impact-stats">
+                <div class="impact-stat">
+                    <div class="impact-number">28</div>
+                    <div class="impact-label">Items Donated</div>
+                </div>
+                
+                <div class="impact-stat">
+                    <div class="impact-number">15.6 lbs</div>
+                    <div class="impact-label">Waste Diverted</div>
+                </div>
+                
+                <div class="impact-stat">
+                    <div class="impact-number">4.2</div>
+                    <div class="impact-label">CO₂ Tons Offset</div>
+                </div>
+                
+                <div class="impact-stat">
+                    <div class="impact-number">7</div>
+                    <div class="impact-label">People Helped</div>
+                </div>
+            </div>
+            
+            <p>Keep up the great work! Every donation makes our planet a little greener.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // In a real implementation, you would filter the history list here
+            });
+        });
+        
+        // Reward redemption functionality
+        document.querySelectorAll('.reward-button').forEach(button => {
+            button.addEventListener('click', function() {
+                if (!this.classList.contains('redeemed')) {
+                    const rewardTitle = this.closest('.reward-card').querySelector('.reward-title').textContent;
+                    this.textContent = 'Redeemed!';
+                    this.classList.add('redeemed');
+                    this.disabled = true;
+                    
+                    // Show confirmation message
+                    alert(`Congratulations! You've successfully redeemed: ${rewardTitle}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

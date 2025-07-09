@@ -1,4 +1,4 @@
 Flask>=2.0.0
 Werkzeug>=2.0.0
 Jinja2>=3.0.0
-gunicorn==21.2.0  # Add this line
+gunicorn==21.2.0 

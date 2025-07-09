@@ -261,7 +261,7 @@
 <body>
     <nav class="navbar">
         <a href="/" class="navbar-brand">
-            <img src="{{ url_for('static', filename='finallogoo.png') }}" alt="SustainABag Logo">
+            <img src="{{ url_for('static', filename='goodlogoo.png') }}" alt="SustainABag Logo">
             <span class="navbar-brand-text">SustainABag</span>
         </a>
         
@@ -279,6 +279,14 @@
             <a href="/how_to_donate" {% if request.path == '/how_to_donate' %}class="active"{% endif %}>
                 <i class="fas fa-hand-holding-heart"></i> How to Donate
             </a>
+
+            {% if g.user %}
+                <a href="#" style="pointer-events: none;"><i class="fas fa-user"></i> {{ g.user['username'] }}</a>
+                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+            {% else %}
+                <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Log In</a>
+            {% endif %}
         </div>
     </nav>
     

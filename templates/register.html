@@ -3,19 +3,102 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-  <h2>Register</h2>
+<style>
+  .register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    min-height: 80vh;
+    background: var(--light-green);
+  }
 
-  <form action="{{ url_for('register') }}" method="post">
+  .register-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    max-width: 450px;
+    width: 100%;
+  }
+
+  .register-card h2 {
+    margin-bottom: 25px;
+    color: var(--primary-green);
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .register-card form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .register-card label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .register-card input[type="text"],
+  .register-card input[type="password"] {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .register-card input[type="text"]:focus,
+  .register-card input[type="password"]:focus {
+    border-color: var(--primary-green);
+    outline: none;
+  }
+
+  .register-card input[type="submit"] {
+    margin-top: 25px;
+    padding: 12px;
+    background-color: var(--accent-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .register-card input[type="submit"]:hover {
+    background-color: var(--dark-green);
+  }
+
+  @media (max-width: 500px) {
+    .register-card {
+      padding: 30px 20px;
+    }
+
+    .register-card h2 {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="register-container">
+  <div class="register-card">
+    <h2>Create Your Account</h2>
+    <form action="{{ url_for('register') }}" method="post">
       <label for="username">Username</label>
-      <input id="username" type="text" name="username">
+      <input id="username" type="text" name="username" required>
 
       <label for="password1">Password</label>
-      <input id="password1" type="password" name="password1">
+      <input id="password1" type="password" name="password1" required>
 
-      <label for="password2">Password (again)</label>
-      <input id="password2" type="password" name="password2">
+      <label for="password2">Confirm Password</label>
+      <input id="password2" type="password" name="password2" required>
 
       <input type="submit" value="Register">
-  </form>
-
+    </form>
+  </div>
+</div>
 {% endblock %}
