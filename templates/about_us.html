@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - SustainABag{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --primary-green: #2e7d32;
+        --light-green: #eafaf1;
+        --medium-green: #c8e6c9;
+        --dark-green: #1b5e20;
+        --accent-green: #388e3c;
+        --text-dark: #333;
+        --text-light: #555;
+    }
+    
+    /* Page Header */
+    .page-header {
+        background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+        color: white;
+        padding: 80px 20px 60px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .page-header h1 {
+        font-size: 2.8rem;
+        margin: 0 0 15px 0;
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .page-header p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+    
+    /* Main Content */
+    .container {
+        max-width: 900px;
+        margin: 0 auto 40px;
+        padding: 0 30px;
+    }
+    
+    .content-section {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        padding: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .section-title {
+        color: var(--primary-green);
+        margin-top: 0;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--medium-green);
+        font-size: 2rem;
+        position: relative;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 80px;
+        height: 2px;
+        background-color: var(--primary-green);
+    }
+    
+    p {
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+    }
+    
+    /* Stats Boxes */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .stats-box {
+        background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 100%);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    
+    .stats-box:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stats-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background-color: var(--primary-green);
+    }
+    
+    .stats-box strong {
+        color: var(--primary-green);
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 15px;
+    }
+    
+    .stats-box span.source {
+        font-size: 0.9rem;
+        color: var(--text-light);
+        font-style: italic;
+        display: block;
+        margin-top: 15px;
+    }
+    
+    /* List Styling */
+    ul {
+        padding-left: 20px;
+        margin: 20px 0;
+    }
+    
+    li {
+        margin-bottom: 12px;
+        position: relative;
+        padding-left: 25px;
+    }
+    
+    li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--accent-green);
+        font-weight: bold;
+    }
+    
+    /* Call to Action */
+    .cta-section {
+        text-align: center;
+        padding: 40px;
+        background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+        color: white;
+        border-radius: 16px;
+        margin-top: 30px;
+    }
+    
+    .cta-section h3 {
+        font-size: 2rem;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    
+    .cta-button {
+        display: inline-block;
+        background: white;
+        color: var(--primary-green);
+        padding: 14px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        background: #f8f8f8;
+    }
+    
+    /* Mission Statement */
+    .mission-statement {
+        text-align: center;
+        margin: 40px auto;
+        max-width: 800px;
+        font-size: 1.2rem;
+        font-style: italic;
+        color: var(--text-light);
+        padding: 20px;
+        border-left: 4px solid var(--accent-green);
+        border-right: 4px solid var(--accent-green);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .content-section {
+            padding: 25px 20px;
+        }
+        
+        .page-header {
+            padding: 60px 20px 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.2rem;
+        }
+        
+        .section-title {
+            font-size: 1.7rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <h1>About SustainABag</h1>
+    <p>Travel light. Give back. Shop sustainably.</p>
+</header>
+
+<div class="container">
+    <div class="stats-grid">
+        <div class="stats-box">
+            <strong>Did you know?</strong>
+            According to the Fall 2024 Global Rescue Traveler Sentiment and Safety Survey, <strong>32% of travelers</strong> admitted that overpacking was their top travel mistake in 2024. Overpacking leads to excess baggage fees, makes it harder to navigate airports, and adds frustration to your journey. By packing lighter, you can avoid these hassles and travel more sustainably.
+        </div>
+        
+        <div class="stats-box">
+            <strong>What happens when travelers overpack?</strong>
+            About <strong>58%</strong> of travelers who exceed their luggage allowance choose to pay for overweight baggage fees, while the remaining <strong>42%</strong> opt to leave items behind to reduce weight.
+            <span class="source">Source: Travel Agent Central, Newsdesk</span>
+        </div>
+    </div>
+    
+    <div class="content-section">
+        <h2 class="section-title">Our Mission</h2>
+        <p class="mission-statement">
+            "To revolutionize travel by reducing waste and promoting sustainable practices through a circular economy for travel essentials."
+        </p>
+        <p>
+            SustainABag is a green travel platform dedicated to reducing overconsumption and promoting sustainability among travelers. We believe that traveling light not only makes your journey easier, but also helps the planet by reducing waste and carbon footprint.
+        </p>
+        
+        <h2 class="section-title">Our Concept</h2>
+        <p>
+            If you find yourself overpacked or with extra clothing during your travels, SustainABag is here to help. Simply drop off your unused clothes at our store. Donate them or sell them at a low price. We carefully check all items for quality: those in great condition are resold to other travelers at affordable prices, while the rest are donated to local charities.
+        </p>
+        
+        <h2 class="section-title">Why We Do It</h2>
+        <ul>
+            <li>Reduce textile waste and promote a circular economy</li>
+            <li>Support local communities through donations</li>
+            <li>Make sustainable travel easy and accessible for everyone</li>
+            <li>Reduce carbon footprint from textile production</li>
+            <li>Create a community of conscious travelers</li>
+        </ul>
+        
+        <h2 class="section-title">Our Impact</h2>
+        <p>
+            Since our founding, we've diverted over 5,000 pounds of clothing from landfills and helped thousands of travelers lighten their load. Our community of eco-conscious travelers continues to grow, creating a positive ripple effect in the travel industry.
+        </p>
+        
+        <div class="cta-section">
+            <h3>Join the Sustainable Travel Movement</h3>
+            <p>Whether you're a traveler looking to lighten your bag or someone searching for affordable, quality clothing, SustainABag is your sustainable solution.</p>
+            <a href="/how_to_donate" class="cta-button">Learn How to Donate</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

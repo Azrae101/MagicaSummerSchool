@@ -1,0 +1,592 @@
+{% extends "base.html" %}
+
+{% block title %}How to Donate - SustainABag{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --primary-green: #2e7d32;
+        --light-green: #eafaf1;
+        --medium-green: #c8e6c9;
+        --dark-green: #1b5e20;
+        --accent-green: #388e3c;
+        --text-dark: #333;
+        --text-light: #555;
+    }
+    
+    /* Hero Section */
+    .donate-hero {
+        background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+        color: white;
+        padding: 100px 20px 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .donate-hero-content {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .donate-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .donate-hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        opacity: 0.9;
+    }
+    
+    /* Main Content */
+    .donate-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    
+    .donate-section {
+        margin-bottom: 60px;
+    }
+    
+    .section-title {
+        color: var(--primary-green);
+        margin-top: 0;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--medium-green);
+        font-size: 2.2rem;
+        position: relative;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 80px;
+        height: 2px;
+        background-color: var(--primary-green);
+    }
+    
+    /* Process Steps */
+    .process-steps {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin: 40px 0;
+    }
+    
+    .step-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        text-align: center;
+        width: 250px;
+        transition: transform 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .step-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .step-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background: var(--primary-green);
+        color: white;
+        font-size: 1.8rem;
+        font-weight: bold;
+        border-radius: 50%;
+        margin: 0 auto 25px;
+    }
+    
+    .step-icon {
+        font-size: 3.5rem;
+        color: var(--accent-green);
+        margin-bottom: 20px;
+    }
+    
+    .step-card h3 {
+        color: var(--dark-green);
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+    
+    .step-card p {
+        margin-bottom: 0;
+    }
+    
+    .arrow {
+        position: absolute;
+        top: 50%;
+        right: -30px;
+        font-size: 2.5rem;
+        color: var(--medium-green);
+        transform: translateY(-50%);
+    }
+    
+    @media (max-width: 900px) {
+        .arrow {
+            display: none;
+        }
+        
+        .step-card {
+            width: 100%;
+            max-width: 400px;
+        }
+    }
+    
+    /* Rewards Section */
+    .rewards-container {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        padding: 40px;
+        margin: 40px 0;
+    }
+    
+    .rewards-image {
+        flex: 1;
+        min-width: 300px;
+        background: var(--light-green);
+        border-radius: 12px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 6rem;
+        color: var(--primary-green);
+    }
+    
+    .rewards-content {
+        flex: 2;
+    }
+    
+    .reward-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .reward-icon {
+        font-size: 1.8rem;
+        color: var(--accent-green);
+        min-width: 40px;
+    }
+    
+    @media (max-width: 768px) {
+        .rewards-container {
+            flex-direction: column;
+        }
+        
+        .rewards-image {
+            width: 100%;
+        }
+    }
+    
+    /* Airport Locations */
+    .locations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+    
+    .location-card {
+        background: var(--light-green);
+        border-radius: 12px;
+        padding: 25px;
+        display: flex;
+        gap: 15px;
+        transition: transform 0.3s ease;
+    }
+    
+    .location-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .location-icon {
+        font-size: 2.5rem;
+        color: var(--primary-green);
+        min-width: 50px;
+    }
+    
+    .location-info h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: var(--dark-green);
+    }
+    
+    .location-info p {
+        margin: 5px 0;
+    }
+    
+    /* FAQ Section */
+    .faq-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        padding: 40px;
+        margin-top: 40px;
+    }
+    
+    .faq-item {
+        margin-bottom: 25px;
+        border-bottom: 1px solid var(--medium-green);
+        padding-bottom: 20px;
+    }
+    
+    .faq-question {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: var(--dark-green);
+        margin-bottom: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .faq-question::after {
+        content: '+';
+        font-size: 1.5rem;
+    }
+    
+    .faq-item.active .faq-question::after {
+        content: '-';
+    }
+    
+    .faq-answer {
+        display: none;
+    }
+    
+    .faq-item.active .faq-answer {
+        display: block;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        text-align: center;
+        padding: 60px 20px;
+        background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+        color: white;
+        border-radius: 16px;
+        margin-top: 50px;
+    }
+    
+    .cta-section h3 {
+        font-size: 2.2rem;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .cta-button {
+        display: inline-block;
+        padding: 14px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .primary-button {
+        background: white;
+        color: var(--primary-green);
+    }
+    
+    .secondary-button {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .donate-hero {
+            padding: 80px 20px 60px;
+        }
+        
+        .donate-hero h1 {
+            font-size: 2.2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .cta-button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="donate-hero">
+    <div class="donate-hero-content">
+        <h1>How to Donate with SustainABag</h1>
+        <p>Lighten your luggage, help the planet, and get rewarded for your sustainable choices</p>
+    </div>
+</section>
+
+<div class="donate-container">
+    <!-- Donation Process -->
+    <section class="donate-section">
+        <h2 class="section-title">Our Simple Donation Process</h2>
+        <p>Donating your unused travel items is quick and easy. Here's how you can participate in our sustainable travel movement:</p>
+        
+        <div class="process-steps">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">📍</div>
+                <h3>Find a Bin</h3>
+                <p>Locate our clearly marked SustainABag bins at participating airports</p>
+                <div class="arrow">→</div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">👕</div>
+                <h3>Prepare Items</h3>
+                <p>Gather clean, gently used clothing you no longer need</p>
+                <div class="arrow">→</div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">📥</div>
+                <h3>Drop Off</h3>
+                <p>Place your items in the bin - no forms or waiting required</p>
+                <div class="arrow">→</div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <div class="step-icon">🎁</div>
+                <h3>Get Rewarded</h3>
+                <p>Scan the QR code to receive your rewards</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Rewards Section -->
+    <section class="donate-section">
+        <h2 class="section-title">Your Donation Rewards</h2>
+        <p>We appreciate your contribution to sustainable travel. For each item you donate, you'll receive:</p>
+        
+        <div class="rewards-container">
+            <div class="rewards-image">
+                🎁
+            </div>
+            <div class="rewards-content">
+                <div class="reward-item">
+                    <div class="reward-icon">💰</div>
+                    <div>
+                        <h3>Instant Discounts</h3>
+                        <p>Receive 15% off your next purchase at our store for each donated item</p>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-icon">✈️</div>
+                    <div>
+                        <h3>Priority Lounge Access</h3>
+                        <p>After 5 donations, get complimentary access to partner airport lounges</p>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-icon">🌱</div>
+                    <div>
+                        <h3>Sustainability Points</h3>
+                        <p>Earn points redeemable for eco-friendly travel products</p>
+                    </div>
+                </div>
+                
+                <div class="reward-item">
+                    <div class="reward-icon">❤️</div>
+                    <div>
+                        <h3>Donation Option</h3>
+                        <p>Choose to donate your reward value to environmental charities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Locations Section -->
+    <section class="donate-section">
+        <h2 class="section-title">Donation Locations</h2>
+        <p>Find our donation bins at these major airports around the world:</p>
+        
+        <div class="locations-grid">
+            <div class="location-card">
+                <div class="location-icon">✈️</div>
+                <div class="location-info">
+                    <h4>JFK International Airport</h4>
+                    <p>New York, USA</p>
+                    <p><strong>Location:</strong> Terminal 4, near Gate B24</p>
+                    <p><strong>Hours:</strong> 5:00 AM - 11:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="location-card">
+                <div class="location-icon">✈️</div>
+                <div class="location-info">
+                    <h4>Heathrow Airport</h4>
+                    <p>London, UK</p>
+                    <p><strong>Location:</strong> Terminal 5, Departures Level</p>
+                    <p><strong>Hours:</strong> 24/7</p>
+                </div>
+            </div>
+            
+            <div class="location-card">
+                <div class="location-icon">✈️</div>
+                <div class="location-info">
+                    <h4>Changi Airport</h4>
+                    <p>Singapore</p>
+                    <p><strong>Location:</strong> Terminal 1, near Information Desk</p>
+                    <p><strong>Hours:</strong> 24/7</p>
+                </div>
+            </div>
+            
+            <div class="location-card">
+                <div class="location-icon">✈️</div>
+                <div class="location-info">
+                    <h4>Los Angeles International (LAX)</h4>
+                    <p>Los Angeles, USA</p>
+                    <p><strong>Location:</strong> Terminal B, Security Area</p>
+                    <p><strong>Hours:</strong> 6:00 AM - 10:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="location-card">
+                <div class="location-icon">✈️</div>
+                <div class="location-info">
+                    <h4>Charles de Gaulle Airport</h4>
+                    <p>Paris, France</p>
+                    <p><strong>Location:</strong> Terminal 2E, near Check-in</p>
+                    <p><strong>Hours:</strong> 5:30 AM - 11:30 PM</p>
+                </div>
+            </div>
+            
+            <div class="location-card">
+                <div class="location-icon">✈️</div>
+                <div class="location-info">
+                    <h4>Dubai International</h4>
+                    <p>Dubai, UAE</p>
+                    <p><strong>Location:</strong> Terminal 3, Concourse B</p>
+                    <p><strong>Hours:</strong> 24/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="donate-section">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What items can I donate?</div>
+                <div class="faq-answer">
+                    <p>We accept all clean, gently used clothing items including shirts, pants, dresses, jackets, and accessories. Items should be in good condition without significant damage. We do not accept undergarments, swimwear, or heavily worn items.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How do I receive my rewards?</div>
+                <div class="faq-answer">
+                    <p>After placing your items in the bin, scan the QR code on the bin with your smartphone. You'll be directed to our rewards portal where you can choose your reward option and it will be instantly added to your account.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What happens to the items I donate?</div>
+                <div class="faq-answer">
+                    <p>All items go through our sustainability process:</p>
+                    <ul>
+                        <li>Quality items are cleaned and made available for purchase at affordable prices</li>
+                        <li>Items in good condition but not suitable for resale are donated to local charities</li>
+                        <li>Damaged items are responsibly recycled into new materials</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Can I donate at locations other than airports?</div>
+                <div class="faq-answer">
+                    <p>Currently, our donation bins are only available at participating airports. However, we're expanding to train stations and cruise terminals soon. Check back for updates on new locations!</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Is there a limit to how many items I can donate?</div>
+                <div class="faq-answer">
+                    <p>No, there's no limit! You can donate as many items as you'd like. Each item qualifies for rewards, so more donations mean more benefits for you and the planet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <h3>Ready to Travel Light & Sustainably?</h3>
+        <p>Join thousands of conscious travelers making a difference</p>
+        <div class="cta-buttons">
+            <a href="/" class="cta-button primary-button">Shop Pre-Loved Items</a>
+            <a href="/about" class="cta-button secondary-button">Learn About Our Mission</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // FAQ toggle functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.parentElement;
+            faqItem.classList.toggle('active');
+        });
+    });
+</script>
+{% endblock %}

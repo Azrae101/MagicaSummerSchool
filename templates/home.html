@@ -1,0 +1,724 @@
+{% extends "base.html" %}
+
+{% block title %}Home - SustainABag{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --primary-green: #2e7d32;
+        --light-green: #eafaf1;
+        --medium-green: #c8e6c9;
+        --dark-green: #1b5e20;
+        --accent-green: #388e3c;
+        --text-dark: #333;
+        --text-light: #555;
+    }
+    
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+        color: white;
+        padding: 100px 20px 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-content {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero h1 {
+        font-size: 3.2rem;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .hero p {
+        font-size: 1.3rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        opacity: 0.9;
+    }
+    
+    .hero-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+    }
+    
+    .hero-button {
+        display: inline-block;
+        padding: 16px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .primary-button {
+        background: white;
+        color: var(--primary-green);
+    }
+    
+    .secondary-button {
+        background: transparent;
+        color: white;
+        border: 3px solid white;
+    }
+    
+    .hero-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Stats Section */
+    .stats-section {
+        padding: 80px 20px;
+        background: var(--light-green);
+    }
+    
+    .stats-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .stat-icon {
+        font-size: 3.5rem;
+        color: var(--accent-green);
+        margin-bottom: 20px;
+    }
+    
+    .stat-number {
+        font-size: 3.5rem;
+        font-weight: bold;
+        color: var(--primary-green);
+        margin: 10px 0;
+        line-height: 1;
+    }
+    
+    .stat-label {
+        font-size: 1.2rem;
+        color: var(--text-dark);
+    }
+    
+    /* Rewards Section */
+    .rewards-section {
+        padding: 100px 20px;
+        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .rewards-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        align-items: center;
+    }
+    
+    .rewards-content {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .rewards-image {
+        flex: 1;
+        min-width: 300px;
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .reward-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: transform 0.3s ease;
+    }
+    
+    .reward-card:hover {
+        transform: translateX(10px);
+    }
+    
+    .reward-icon {
+        font-size: 2.5rem;
+        color: var(--accent-green);
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .reward-content h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: var(--dark-green);
+    }
+    
+    /* Donation Options */
+    .donation-section {
+        padding: 100px 20px;
+        background: white;
+    }
+    
+    .section-header {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 60px;
+    }
+    
+    .section-title {
+        color: var(--primary-green);
+        font-size: 2.8rem;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    
+    .section-subtitle {
+        font-size: 1.3rem;
+        color: var(--text-light);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .donation-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .donation-card {
+        background: var(--light-green);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+    }
+    
+    .donation-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header {
+        padding: 30px;
+        text-align: center;
+        background: var(--primary-green);
+        color: white;
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    
+    .card-body {
+        padding: 30px;
+    }
+    
+    .donation-amounts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 25px 0;
+    }
+    
+    .amount-option {
+        flex: 1;
+        min-width: 100px;
+        text-align: center;
+        padding: 12px 15px;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid var(--medium-green);
+    }
+    
+    .amount-option.selected {
+        background: var(--primary-green);
+        color: white;
+        border-color: var(--primary-green);
+    }
+    
+    .donate-button {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background: var(--primary-green);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+    
+    .donate-button:hover {
+        background: var(--dark-green);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Social Section */
+    .social-section {
+        padding: 100px 20px;
+        background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+        color: white;
+        text-align: center;
+    }
+    
+    .social-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .social-section .section-title {
+        color: white !important; /* Ensure title is white */
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Add subtle shadow for better contrast */
+        font-size: 2.8rem; /* Slightly larger for emphasis */
+    }
+    
+    .social-section p {
+        color: rgba(255, 255, 255, 0.9); /* Slightly brighter text */
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 20px auto 40px;
+    }
+
+    .social-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+    
+    .social-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 30px;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease;
+    }
+    
+    .social-card:hover {
+        transform: scale(1.05);
+    }
+    
+    .social-icon {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .social-card h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+    
+    .social-button {
+        display: inline-block;
+        background: white;
+        color: var(--primary-green);
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .social-button:hover {
+        background: var(--light-green);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Testimonials */
+    .testimonials-section {
+        padding: 100px 20px;
+        background: var(--light-green);
+    }
+    
+    .testimonials-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    .testimonial-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        position: relative;
+    }
+    
+    .testimonial-card::before {
+        content: """;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 5rem;
+        color: var(--medium-green);
+        opacity: 0.3;
+        font-family: Georgia, serif;
+    }
+    
+    .testimonial-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--medium-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: var(--primary-green);
+    }
+    
+    .author-info h4 {
+        margin: 0;
+        color: var(--dark-green);
+    }
+    
+    .author-info p {
+        margin: 5px 0 0;
+        font-size: 0.9rem;
+        color: var(--text-light);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero {
+            padding: 80px 20px 60px;
+        }
+        
+        .hero h1 {
+            font-size: 2.4rem;
+        }
+        
+        .hero-buttons {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .hero-button {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+        }
+        
+        .rewards-container {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Lighten Your Bag, Enrich Your Journey</h1>
+        <p>Join the movement of sustainable travelers who donate unused items and earn rewards while making a positive impact on our planet.</p>
+        <div class="hero-buttons">
+            <a href="/how_to_donate" class="hero-button primary-button">Start Donating Now</a>
+            <a href="#rewards" class="hero-button secondary-button">Discover Rewards</a>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Stats -->
+<section class="stats-section">
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-icon">♻️</div>
+            <div class="stat-number">12,500+</div>
+            <div class="stat-label">Items Donated</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">🌍</div>
+            <div class="stat-number">8,200+</div>
+            <div class="stat-label">Pounds Diverted from Landfills</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">👕</div>
+            <div class="stat-number">6,300+</div>
+            <div class="stat-label">Travelers Helped</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">✈️</div>
+            <div class="stat-number">24</div>
+            <div class="stat-label">Airport Locations</div>
+        </div>
+    </div>
+</section>
+
+<!-- Rewards Section -->
+<section class="rewards-section" id="rewards">
+    <div class="rewards-container">
+        <div class="rewards-content">
+            <h2 class="section-title">Earn Amazing Rewards</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">Every donation brings you closer to exciting benefits designed for conscious travelers.</p>
+            
+            <div class="reward-card">
+                <div class="reward-icon">🏆</div>
+                <div class="reward-content">
+                    <h3>Travel Discounts</h3>
+                    <p>Get 15-30% off eco-friendly travel gear for every item donated</p>
+                </div>
+            </div>
+            
+            <div class="reward-card">
+                <div class="reward-icon">✈️</div>
+                <div class="reward-content">
+                    <h3>Lounge Access</h3>
+                    <p>Unlock complimentary airport lounge passes after 5 donations</p>
+                </div>
+            </div>
+            
+            <div class="reward-card">
+                <div class="reward-icon">🌱</div>
+                <div class="reward-content">
+                    <h3>Sustainability Points</h3>
+                    <p>Redeem points for carbon offset credits or tree planting</p>
+                </div>
+            </div>
+            
+            <div class="reward-card">
+                <div class="reward-icon">💚</div>
+                <div class="reward-content">
+                    <h3>Exclusive Perks</h3>
+                    <p>Priority access to sustainable travel events and workshops</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="rewards-image">
+            <div style="height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 40px; text-align: center; background: linear-gradient(135deg, var(--light-green), #d0e8d0);">
+                <div style="font-size: 5rem; margin-bottom: 20px;">🎁</div>
+                <h3 style="color: var(--dark-green); margin-bottom: 15px;">Your Impact Multiplier</h3>
+                <p style="color: var(--text-dark);">Every reward you earn helps fund our sustainability initiatives and community programs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Donation Options -->
+<section class="donation-section">
+    <div class="section-header">
+        <h2 class="section-title">Support Our Mission</h2>
+        <p class="section-subtitle">Your financial donations help us expand our impact and create more sustainable travel solutions worldwide.</p>
+    </div>
+    
+    <div class="donation-cards">
+        <div class="donation-card">
+            <div class="card-header">
+                <h3>One-Time Donation</h3>
+            </div>
+            <div class="card-body">
+                <p>Make a single contribution to support our sustainability initiatives and help us expand to more airports.</p>
+                
+                <div class="donation-amounts">
+                    <div class="amount-option">$10</div>
+                    <div class="amount-option">$25</div>
+                    <div class="amount-option selected">$50</div>
+                    <div class="amount-option">$100</div>
+                </div>
+                
+                <button class="donate-button">Donate Now</button>
+            </div>
+        </div>
+        
+        <div class="donation-card">
+            <div class="card-header">
+                <h3>Monthly Supporter</h3>
+            </div>
+            <div class="card-body">
+                <p>Join our community of monthly supporters and help create lasting change in the travel industry.</p>
+                <ul style="text-align: left; padding-left: 20px;">
+                    <li>Exclusive updates on our impact</li>
+                    <li>Special supporter badge on your profile</li>
+                    <li>Early access to new features</li>
+                    <li>Personalized impact reports</li>
+                </ul>
+                
+                <div style="margin-top: 25px;">
+                    <select style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--medium-green);">
+                        <option>Select monthly amount</option>
+                        <option>$5/month</option>
+                        <option>$10/month</option>
+                        <option>$20/month</option>
+                        <option>$50/month</option>
+                    </select>
+                    <button class="donate-button">Become a Supporter</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="donation-card">
+            <div class="card-header">
+                <h3>Corporate Partnership</h3>
+            </div>
+            <div class="card-body">
+                <p>Align your brand with sustainable travel and make a significant impact through corporate sponsorship.</p>
+                <ul style="text-align: left; padding-left: 20px;">
+                    <li>Brand visibility in airports worldwide</li>
+                    <li>Employee engagement programs</li>
+                    <li>Custom sustainability reporting</li>
+                    <li>ESG impact certification</li>
+                </ul>
+                
+                <button class="donate-button" style="margin-top: 30px;">Contact Us</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Media Section -->
+<section class="social-section">
+    <div class="social-container">
+        <h2 class="section-title">Join Our Community</h2>
+        <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Connect with thousands of sustainable travelers sharing tips, stories, and inspiration.</p>
+        
+        <div class="social-cards">
+            <div class="social-card">
+                <div class="social-icon">📱</div>
+                <h3>Instagram</h3>
+                <p>Daily inspiration and traveler stories</p>
+                <a href="#" class="social-button">Follow Us</a>
+            </div>
+            
+            <div class="social-card">
+                <div class="social-icon">👥</div>
+                <h3>Facebook</h3>
+                <p>Join our community discussions</p>
+                <a href="#" class="social-button">Join Group</a>
+            </div>
+            
+            <div class="social-card">
+                <div class="social-icon">✉️</div>
+                <h3>Newsletter</h3>
+                <p>Get sustainability tips and updates</p>
+                <form style="margin-top: 20px;">
+                    <input type="email" placeholder="Your email" style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                    <button type="submit" class="social-button" style="width: 100%; margin-top: 0;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials-section">
+    <div class="section-header">
+        <h2 class="section-title">Traveler Stories</h2>
+        <p class="section-subtitle">Hear from people who've transformed their travel experience with SustainABag</p>
+    </div>
+    
+    <div class="testimonials-container">
+        <div class="testimonial-card">
+            <p class="testimonial-text">"I donated three items before my flight and used the rewards to buy a sustainable travel pillow. Not only did I lighten my bag, but I also got an amazing product at a discount!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">MJ</div>
+                <div class="author-info">
+                    <h4>Maria Johnson</h4>
+                    <p>Frequent Traveler</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <p class="testimonial-text">"The donation process was so simple at the airport. I love knowing my unused clothes are helping others instead of going to waste. Plus, the lounge access reward is fantastic!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">DR</div>
+                <div class="author-info">
+                    <h4>David Rodriguez</h4>
+                    <p>Business Traveler</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <p class="testimonial-text">"As a monthly supporter, I feel connected to a community making real change. The impact reports show exactly how my contribution is helping reduce travel waste worldwide."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">SP</div>
+                <div class="author-info">
+                    <h4>Sarah Peterson</h4>
+                    <p>Sustainability Advocate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Amount selection functionality
+    document.querySelectorAll('.amount-option').forEach(option => {
+        option.addEventListener('click', () => {
+            // Remove selected class from all options
+            document.querySelectorAll('.amount-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            option.classList.add('selected');
+        });
+    });
+</script>
+{% endblock %}
