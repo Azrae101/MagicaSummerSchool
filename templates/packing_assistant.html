@@ -282,6 +282,57 @@
             grid-template-columns: 1fr;
         }
     }
+
+    .luggage-info {
+        background: #e8f5e9;
+        border-radius: 16px;
+        padding: 25px;
+        margin: 30px 0;
+        border-left: 4px solid var(--accent-green);
+    }
+
+    .luggage-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        color: var(--primary-green);
+    }
+
+    .luggage-details {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .luggage-emoji {
+        font-size: 3.5rem;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .luggage-specs p {
+        margin: 10px 0;
+        font-size: 1.1rem;
+    }
+
+    .luggage-specs span {
+        font-weight: 600;
+        color: var(--dark-green);
+    }
+
+    @media (max-width: 768px) {
+        .luggage-details {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -365,6 +416,23 @@
                     </select>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="flightAgency">Flight Agency (Optional)</label>
+                <select id="flightAgency">
+                    <option value="">Select airline</option>
+                    <option value="Ryanair">Ryanair</option>
+                    <option value="EasyJet">EasyJet</option>
+                    <option value="Wizz Air">Wizz Air</option>
+                    <option value="Lufthansa">Lufthansa</option>
+                    <option value="Air France">Air France</option>
+                    <option value="KLM">KLM</option>
+                    <option value="British Airways">British Airways</option>
+                    <option value="SAS">SAS</option>
+                    <option value="Iberia">Iberia</option>
+                    <option value="TAP Portugal">TAP Portugal</option>
+                </select>
+            </div>
             
             <button type="submit" class="btn btn-block">
                 <i class="fas fa-suitcase"></i> Generate Packing List
@@ -386,6 +454,22 @@
             
             <div class="weather-cards" id="weatherCards">
                 <!-- Weather cards will be generated here -->
+            </div>
+        </div>
+
+        <div class="luggage-info" id="luggageInfo" style="display: none;">
+            <div class="luggage-header">
+                <i class="fas fa-suitcase fa-2x"></i>
+                <h2>Luggage Information</h2>
+            </div>
+            <div class="luggage-details">
+                <div class="luggage-emoji" id="luggageEmoji">🎒</div>
+                <div class="luggage-specs">
+                    <p><strong>Luggage Type:</strong> <span id="luggageTypeDisplay">Backpack</span></p>
+                    <p><strong>Weight Limit:</strong> <span id="weightLimit">-</span></p>
+                    <p><strong>Size Limit:</strong> <span id="sizeLimit">-</span></p>
+                    <p><strong>Airline:</strong> <span id="airlineName">-</span></p>
+                </div>
             </div>
         </div>
         
@@ -428,7 +512,68 @@
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     document.getElementById('travelDates').valueAsDate = tomorrow;
-    
+
+    // Airline luggage restrictions data
+    const airlineRestrictions = {
+        "Ryanair": {
+            "carry-on": { weight: "10kg", size: "40×20×25cm" },
+            "checked": { weight: "20kg", size: "80×50×30cm" },
+            "backpack": { weight: "10kg", size: "40×20×25cm" }
+        },
+        "EasyJet": {
+            "carry-on": { weight: "15kg", size: "56×45×25cm" },
+            "checked": { weight: "23kg", size: "275cm total" },
+            "backpack": { weight: "No limit", size: "45×36×20cm" }
+        },
+        "Wizz Air": {
+            "carry-on": { weight: "10kg", size: "40×30×20cm" },
+            "checked": { weight: "32kg", size: "149cm total" },
+            "backpack": { weight: "10kg", size: "40×30×18cm" }
+        },
+        "Lufthansa": {
+            "carry-on": { weight: "8kg", size: "55×40×23cm" },
+            "checked": { weight: "23kg", size: "158cm total" },
+            "backpack": { weight: "8kg", size: "55×40×23cm" }
+        },
+        "Air France": {
+            "carry-on": { weight: "12kg", size: "55×35×25cm" },
+            "checked": { weight: "23kg", size: "158cm total" },
+            "backpack": { weight: "12kg", size: "55×35×25cm" }
+        },
+        "KLM": {
+            "carry-on": { weight: "12kg", size: "55×35×25cm" },
+            "checked": { weight: "23kg", size: "158cm total" },
+            "backpack": { weight: "12kg", size: "55×35×25cm" }
+        },
+        "British Airways": {
+            "carry-on": { weight: "23kg", size: "56×45×25cm" },
+            "checked": { weight: "23kg", size: "90×75×43cm" },
+            "backpack": { weight: "23kg", size: "56×45×25cm" }
+        },
+        "SAS": {
+            "carry-on": { weight: "8kg", size: "55×40×23cm" },
+            "checked": { weight: "23kg", size: "158cm total" },
+            "backpack": { weight: "8kg", size: "55×40×23cm" }
+        },
+        "Iberia": {
+            "carry-on": { weight: "10kg", size: "56×40×25cm" },
+            "checked": { weight: "23kg", size: "158cm total" },
+            "backpack": { weight: "10kg", size: "56×40×25cm" }
+        },
+        "TAP Portugal": {
+            "carry-on": { weight: "10kg", size: "55×40×20cm" },
+            "checked": { weight: "23kg", size: "158cm total" },
+            "backpack": { weight: "10kg", size: "55×40×20cm" }
+        }
+    };
+
+    // Luggage type emojis
+    const luggageEmojis = {
+        "carry-on": "🧳",
+        "checked": "🧳",
+        "backpack": "🎒"
+    };
+
     // Weather condition icons mapping
     const weatherIcons = {
         '01d': 'fa-sun',          // clear sky (day)
@@ -526,6 +671,30 @@
         return dailyForecasts;
     }
     
+    function displayLuggageInfo(luggageType, airline) {
+        const luggageInfo = document.getElementById('luggageInfo');
+        const luggageEmoji = document.getElementById('luggageEmoji');
+        const luggageTypeDisplay = document.getElementById('luggageTypeDisplay');
+        const weightLimit = document.getElementById('weightLimit');
+        const sizeLimit = document.getElementById('sizeLimit');
+        const airlineName = document.getElementById('airlineName');
+        
+        if (airline && airlineRestrictions[airline]) {
+            const restrictions = airlineRestrictions[airline][luggageType];
+            
+            luggageEmoji.textContent = luggageEmojis[luggageType];
+            luggageTypeDisplay.textContent = luggageType === 'carry-on' ? 'Carry-on' : 
+                                            luggageType === 'checked' ? 'Checked Baggage' : 'Backpack';
+            weightLimit.textContent = restrictions.weight;
+            sizeLimit.textContent = restrictions.size;
+            airlineName.textContent = airline;
+            
+            luggageInfo.style.display = 'block';
+        } else {
+            luggageInfo.style.display = 'none';
+        }
+    }
+
     // Generate weather cards
     function generateWeatherCards(weatherForecast) {
         const container = document.getElementById('weatherCards');
@@ -680,6 +849,7 @@
         const tripDuration = parseInt(document.getElementById('tripDuration').value);
         const travelType = document.getElementById('travelType').value;
         const luggageType = document.getElementById('luggageType').value;
+        const airline = document.getElementById('flightAgency').value; // Get airline
         
         // Update destination name in results
         document.getElementById('destinationName').textContent = destinationName;
@@ -706,6 +876,9 @@
             
             // Generate packing list
             generatePackingList(weatherForecast, tripDuration, travelType, luggageType);
+            
+            // Display luggage info
+            displayLuggageInfo(luggageType, airline);
             
             // Show results
             document.getElementById('loadingIndicator').style.display = 'none';
