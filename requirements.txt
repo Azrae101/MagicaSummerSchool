@@ -2,3 +2,5 @@ Flask>=2.0.0
 Werkzeug>=2.0.0
 Jinja2>=3.0.0
 gunicorn==21.2.0 
+# CORS headers for Flask
+Flask-Cors>=3.0.0
