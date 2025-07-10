@@ -567,6 +567,262 @@
         }
     };
 
+    // If weather data cannot be predicted in the future
+    const historicalAverages = {
+        "London,GB": [
+            { min: 2, max: 8, condition: "04d", description: "cloudy" },
+            { min: 2, max: 8, condition: "04d", description: "cloudy" },
+            { min: 4, max: 11, condition: "02d", description: "partly cloudy" },
+            { min: 6, max: 14, condition: "02d", description: "partly cloudy" },
+            { min: 9, max: 18, condition: "02d", description: "partly cloudy" },
+            { min: 12, max: 21, condition: "01d", description: "sunny" },
+            { min: 14, max: 23, condition: "01d", description: "sunny" },
+            { min: 14, max: 23, condition: "01d", description: "sunny" },
+            { min: 11, max: 19, condition: "04d", description: "cloudy" },
+            { min: 8, max: 15, condition: "10d", description: "rainy" },
+            { min: 5, max: 11, condition: "10d", description: "rainy" },
+            { min: 3, max: 8, condition: "04d", description: "cloudy" }
+        ],
+        "Paris,FR": [
+            { min: 2, max: 7, condition: "04d", description: "cloudy" },
+            { min: 2, max: 8, condition: "04d", description: "cloudy" },
+            { min: 4, max: 12, condition: "02d", description: "partly cloudy" },
+            { min: 6, max: 15, condition: "02d", description: "partly cloudy" },
+            { min: 10, max: 19, condition: "02d", description: "partly cloudy" },
+            { min: 13, max: 22, condition: "01d", description: "sunny" },
+            { min: 15, max: 25, condition: "01d", description: "sunny" },
+            { min: 15, max: 25, condition: "01d", description: "sunny" },
+            { min: 12, max: 21, condition: "04d", description: "cloudy" },
+            { min: 9, max: 16, condition: "10d", description: "rainy" },
+            { min: 5, max: 11, condition: "10d", description: "rainy" },
+            { min: 3, max: 8, condition: "04d", description: "cloudy" }
+        ],
+        "Berlin,DE": [
+            { min: -1, max: 3, condition: "04d", description: "cloudy" },
+            { min: -1, max: 4, condition: "04d", description: "cloudy" },
+            { min: 1, max: 9, condition: "02d", description: "partly cloudy" },
+            { min: 4, max: 14, condition: "02d", description: "partly cloudy" },
+            { min: 9, max: 19, condition: "02d", description: "partly cloudy" },
+            { min: 12, max: 22, condition: "01d", description: "sunny" },
+            { min: 14, max: 24, condition: "01d", description: "sunny" },
+            { min: 14, max: 24, condition: "01d", description: "sunny" },
+            { min: 10, max: 19, condition: "04d", description: "cloudy" },
+            { min: 6, max: 14, condition: "10d", description: "rainy" },
+            { min: 2, max: 8, condition: "10d", description: "rainy" },
+            { min: 0, max: 4, condition: "04d", description: "cloudy" }
+        ],
+        "Rome,IT": [
+            { min: 3, max: 12, condition: "02d", description: "partly cloudy" },
+            { min: 3, max: 13, condition: "02d", description: "partly cloudy" },
+            { min: 5, max: 16, condition: "02d", description: "partly cloudy" },
+            { min: 8, max: 19, condition: "01d", description: "sunny" },
+            { min: 12, max: 23, condition: "01d", description: "sunny" },
+            { min: 16, max: 28, condition: "01d", description: "sunny" },
+            { min: 18, max: 31, condition: "01d", description: "sunny" },
+            { min: 18, max: 31, condition: "01d", description: "sunny" },
+            { min: 15, max: 27, condition: "01d", description: "sunny" },
+            { min: 11, max: 22, condition: "02d", description: "partly cloudy" },
+            { min: 7, max: 17, condition: "10d", description: "rainy" },
+            { min: 4, max: 13, condition: "10d", description: "rainy" }
+        ],
+        "Madrid,ES": [
+            { min: 1, max: 10, condition: "02d", description: "partly cloudy" },
+            { min: 2, max: 12, condition: "02d", description: "partly cloudy" },
+            { min: 5, max: 16, condition: "02d", description: "partly cloudy" },
+            { min: 7, max: 18, condition: "01d", description: "sunny" },
+            { min: 11, max: 22, condition: "01d", description: "sunny" },
+            { min: 15, max: 28, condition: "01d", description: "sunny" },
+            { min: 18, max: 32, condition: "01d", description: "sunny" },
+            { min: 18, max: 32, condition: "01d", description: "sunny" },
+            { min: 15, max: 27, condition: "01d", description: "sunny" },
+            { min: 10, max: 20, condition: "02d", description: "partly cloudy" },
+            { min: 5, max: 14, condition: "10d", description: "rainy" },
+            { min: 2, max: 11, condition: "10d", description: "rainy" }
+        ],
+        "Amsterdam,NL": [
+            { min: 0, max: 6, condition: "04d", description: "cloudy" },
+            { min: 0, max: 6, condition: "04d", description: "cloudy" },
+            { min: 2, max: 10, condition: "02d", description: "partly cloudy" },
+            { min: 4, max: 13, condition: "02d", description: "partly cloudy" },
+            { min: 8, max: 17, condition: "02d", description: "partly cloudy" },
+            { min: 11, max: 19, condition: "01d", description: "sunny" },
+            { min: 13, max: 22, condition: "01d", description: "sunny" },
+            { min: 13, max: 22, condition: "01d", description: "sunny" },
+            { min: 10, max: 18, condition: "04d", description: "cloudy" },
+            { min: 7, max: 14, condition: "10d", description: "rainy" },
+            { min: 4, max: 10, condition: "10d", description: "rainy" },
+            { min: 1, max: 7, condition: "04d", description: "cloudy" }
+        ],
+        "Brussels,BE": [
+            { min: 1, max: 6, condition: "04d", description: "cloudy" },
+            { min: 1, max: 7, condition: "04d", description: "cloudy" },
+            { min: 3, max: 11, condition: "02d", description: "partly cloudy" },
+            { min: 5, max: 14, condition: "02d", description: "partly cloudy" },
+            { min: 9, max: 18, condition: "02d", description: "partly cloudy" },
+            { min: 12, max: 21, condition: "01d", description: "sunny" },
+            { min: 14, max: 23, condition: "01d", description: "sunny" },
+            { min: 14, max: 23, condition: "01d", description: "sunny" },
+            { min: 11, max: 19, condition: "04d", description: "cloudy" },
+            { min: 8, max: 15, condition: "10d", description: "rainy" },
+            { min: 4, max: 10, condition: "10d", description: "rainy" },
+            { min: 2, max: 7, condition: "04d", description: "cloudy" }
+        ],
+        "Vienna,AT": [
+            { min: -2, max: 3, condition: "04d", description: "cloudy" },
+            { min: -1, max: 5, condition: "04d", description: "cloudy" },
+            { min: 2, max: 10, condition: "02d", description: "partly cloudy" },
+            { min: 6, max: 15, condition: "02d", description: "partly cloudy" },
+            { min: 11, max: 20, condition: "02d", description: "partly cloudy" },
+            { min: 14, max: 24, condition: "01d", description: "sunny" },
+            { min: 16, max: 26, condition: "01d", description: "sunny" },
+            { min: 16, max: 26, condition: "01d", description: "sunny" },
+            { min: 12, max: 21, condition: "04d", description: "cloudy" },
+            { min: 7, max: 15, condition: "10d", description: "rainy" },
+            { min: 3, max: 9, condition: "10d", description: "rainy" },
+            { min: 0, max: 4, condition: "04d", description: "cloudy" }
+        ],
+        "Prague,CZ": [
+            { min: -3, max: 1, condition: "04d", description: "cloudy" },
+            { min: -2, max: 3, condition: "04d", description: "cloudy" },
+            { min: 0, max: 8, condition: "02d", description: "partly cloudy" },
+            { min: 3, max: 13, condition: "02d", description: "partly cloudy" },
+            { min: 8, max: 18, condition: "02d", description: "partly cloudy" },
+            { min: 11, max: 21, condition: "01d", description: "sunny" },
+            { min: 13, max: 23, condition: "01d", description: "sunny" },
+            { min: 13, max: 23, condition: "01d", description: "sunny" },
+            { min: 9, max: 18, condition: "04d", description: "cloudy" },
+            { min: 5, max: 13, condition: "10d", description: "rainy" },
+            { min: 1, max: 7, condition: "10d", description: "rainy" },
+            { min: -2, max: 2, condition: "04d", description: "cloudy" }
+        ],
+        "Stockholm,SE": [
+            { min: -5, max: -1, condition: "04d", description: "cloudy" },
+            { min: -5, max: -1, condition: "04d", description: "cloudy" },
+            { min: -3, max: 3, condition: "04d", description: "cloudy" },
+            { min: 1, max: 8, condition: "02d", description: "partly cloudy" },
+            { min: 6, max: 15, condition: "02d", description: "partly cloudy" },
+            { min: 11, max: 20, condition: "01d", description: "sunny" },
+            { min: 13, max: 22, condition: "01d", description: "sunny" },
+            { min: 12, max: 21, condition: "01d", description: "sunny" },
+            { min: 8, max: 16, condition: "04d", description: "cloudy" },
+            { min: 4, max: 10, condition: "10d", description: "rainy" },
+            { min: 0, max: 5, condition: "04d", description: "cloudy" },
+            { min: -3, max: 1, condition: "04d", description: "cloudy" }
+        ],
+        "Oslo,NO": [
+            { min: -7, max: -2, condition: "04d", description: "cloudy" },
+            { min: -7, max: -1, condition: "04d", description: "cloudy" },
+            { min: -4, max: 3, condition: "04d", description: "cloudy" },
+            { min: 0, max: 9, condition: "02d", description: "partly cloudy" },
+            { min: 5, max: 15, condition: "02d", description: "partly cloudy" },
+            { min: 10, max: 20, condition: "01d", description: "sunny" },
+            { min: 12, max: 22, condition: "01d", description: "sunny" },
+            { min: 11, max: 20, condition: "01d", description: "sunny" },
+            { min: 7, max: 15, condition: "04d", description: "cloudy" },
+            { min: 3, max: 9, condition: "10d", description: "rainy" },
+            { min: -2, max: 3, condition: "04d", description: "cloudy" },
+            { min: -5, max: -1, condition: "04d", description: "cloudy" }
+        ],
+        "Copenhagen,DK": [
+            { min: -1, max: 3, condition: "04d", description: "cloudy" },
+            { min: -1, max: 3, condition: "04d", description: "cloudy" },
+            { min: 0, max: 6, condition: "02d", description: "partly cloudy" },
+            { min: 3, max: 11, condition: "02d", description: "partly cloudy" },
+            { min: 8, max: 16, condition: "02d", description: "partly cloudy" },
+            { min: 12, max: 20, condition: "01d", description: "sunny" },
+            { min: 14, max: 22, condition: "01d", description: "sunny" },
+            { min: 14, max: 22, condition: "01d", description: "sunny" },
+            { min: 11, max: 18, condition: "04d", description: "cloudy" },
+            { min: 7, max: 13, condition: "10d", description: "rainy" },
+            { min: 3, max: 8, condition: "10d", description: "rainy" },
+            { min: 0, max: 5, condition: "04d", description: "cloudy" }
+        ],
+        "Helsinki,FI": [
+            { min: -8, max: -3, condition: "04d", description: "cloudy" },
+            { min: -8, max: -3, condition: "04d", description: "cloudy" },
+            { min: -5, max: 1, condition: "04d", description: "cloudy" },
+            { min: 0, max: 6, condition: "02d", description: "partly cloudy" },
+            { min: 5, max: 13, condition: "02d", description: "partly cloudy" },
+            { min: 10, max: 19, condition: "01d", description: "sunny" },
+            { min: 13, max: 22, condition: "01d", description: "sunny" },
+            { min: 12, max: 20, condition: "01d", description: "sunny" },
+            { min: 8, max: 15, condition: "04d", description: "cloudy" },
+            { min: 4, max: 9, condition: "10d", description: "rainy" },
+            { min: -1, max: 4, condition: "04d", description: "cloudy" },
+            { min: -5, max: -1, condition: "04d", description: "cloudy" }
+        ],
+        "Athens,GR": [
+            { min: 7, max: 13, condition: "02d", description: "partly cloudy" },
+            { min: 7, max: 14, condition: "02d", description: "partly cloudy" },
+            { min: 9, max: 16, condition: "01d", description: "sunny" },
+            { min: 12, max: 20, condition: "01d", description: "sunny" },
+            { min: 16, max: 25, condition: "01d", description: "sunny" },
+            { min: 20, max: 30, condition: "01d", description: "sunny" },
+            { min: 23, max: 33, condition: "01d", description: "sunny" },
+            { min: 23, max: 33, condition: "01d", description: "sunny" },
+            { min: 19, max: 29, condition: "01d", description: "sunny" },
+            { min: 15, max: 24, condition: "02d", description: "partly cloudy" },
+            { min: 11, max: 19, condition: "10d", description: "rainy" },
+            { min: 8, max: 15, condition: "10d", description: "rainy" }
+        ],
+        "Lisbon,PT": [
+            { min: 8, max: 15, condition: "10d", description: "rainy" },
+            { min: 9, max: 16, condition: "10d", description: "rainy" },
+            { min: 10, max: 18, condition: "02d", description: "partly cloudy" },
+            { min: 11, max: 19, condition: "01d", description: "sunny" },
+            { min: 13, max: 22, condition: "01d", description: "sunny" },
+            { min: 16, max: 25, condition: "01d", description: "sunny" },
+            { min: 18, max: 28, condition: "01d", description: "sunny" },
+            { min: 18, max: 28, condition: "01d", description: "sunny" },
+            { min: 17, max: 26, condition: "01d", description: "sunny" },
+            { min: 15, max: 23, condition: "02d", description: "partly cloudy" },
+            { min: 12, max: 18, condition: "10d", description: "rainy" },
+            { min: 9, max: 16, condition: "10d", description: "rainy" }
+        ],
+        "Dublin,IE": [
+            { min: 3, max: 8, condition: "04d", description: "cloudy" },
+            { min: 3, max: 8, condition: "04d", description: "cloudy" },
+            { min: 4, max: 10, condition: "02d", description: "partly cloudy" },
+            { min: 5, max: 12, condition: "02d", description: "partly cloudy" },
+            { min: 7, max: 15, condition: "02d", description: "partly cloudy" },
+            { min: 10, max: 18, condition: "01d", description: "sunny" },
+            { min: 12, max: 19, condition: "01d", description: "sunny" },
+            { min: 12, max: 19, condition: "01d", description: "sunny" },
+            { min: 10, max: 17, condition: "04d", description: "cloudy" },
+            { min: 8, max: 14, condition: "10d", description: "rainy" },
+            { min: 5, max: 10, condition: "10d", description: "rainy" },
+            { min: 4, max: 8, condition: "04d", description: "cloudy" }
+        ],
+        "Warsaw,PL": [
+            { min: -4, max: 0, condition: "04d", description: "cloudy" },
+            { min: -3, max: 1, condition: "04d", description: "cloudy" },
+            { min: 0, max: 7, condition: "02d", description: "partly cloudy" },
+            { min: 3, max: 12, condition: "02d", description: "partly cloudy" },
+            { min: 8, max: 18, condition: "02d", description: "partly cloudy" },
+            { min: 12, max: 22, condition: "01d", description: "sunny" },
+            { min: 14, max: 24, condition: "01d", description: "sunny" },
+            { min: 14, max: 24, condition: "01d", description: "sunny" },
+            { min: 10, max: 18, condition: "04d", description: "cloudy" },
+            { min: 5, max: 12, condition: "10d", description: "rainy" },
+            { min: 1, max: 6, condition: "10d", description: "rainy" },
+            { min: -2, max: 2, condition: "04d", description: "cloudy" }
+        ],
+        "Budapest,HU": [
+            { min: -2, max: 2, condition: "04d", description: "cloudy" },
+            { min: -1, max: 4, condition: "04d", description: "cloudy" },
+            { min: 2, max: 10, condition: "02d", description: "partly cloudy" },
+            { min: 6, max: 15, condition: "02d", description: "partly cloudy" },
+            { min: 11, max: 20, condition: "02d", description: "partly cloudy" },
+            { min: 14, max: 24, condition: "01d", description: "sunny" },
+            { min: 16, max: 26, condition: "01d", description: "sunny" },
+            { min: 16, max: 26, condition: "01d", description: "sunny" },
+            { min: 12, max: 21, condition: "04d", description: "cloudy" },
+            { min: 7, max: 15, condition: "10d", description: "rainy" },
+            { min: 3, max: 9, condition: "10d", description: "rainy" },
+            { min: 0, max: 4, condition: "04d", description: "cloudy" }
+        ]
+    };
+
     // Luggage type emojis
     const luggageEmojis = {
         "carry-on": "🧳",
@@ -596,81 +852,146 @@
         '50n': 'fa-smog'
     };
     
-    // Get weather data from OpenWeatherMap API
-    async function getWeatherData(city) {
-        const apiKey = 'b6c054d08614ff93875438d428c90dfa'; // Replace with your actual API key
-        const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+    // Function to get dates for the trip
+    function getTripDates(startDate, duration) {
+        const dates = [];
+        const start = new Date(startDate);
+        for (let i = 0; i < duration; i++) {
+            const currentDate = new Date(start);
+            currentDate.setDate(start.getDate() + i);
+            dates.push(currentDate.toISOString().split('T')[0]);
+        }
+        return dates;
+    }
+
+    // Update getWeatherData function
+    async function getWeatherData(city, date) {
+        const apiKey = 'b6c054d08614ff93875438d428c90dfa';
+        const today = new Date();
+        const targetDate = new Date(date);
+        const diffDays = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
         
+        // Use historical data for dates beyond 5 days
+        if (diffDays > 5) {
+            const month = targetDate.getMonth();
+            const historicalData = historicalAverages[city]?.[month] || {
+                min_temp: 10,
+                max_temp: 20,
+                condition: "02d",
+                description: "Partly Cloudy"
+            };
+            
+            return {
+                min_temp: historicalData.min,
+                max_temp: historicalData.max,
+                condition: historicalData.condition,
+                description: historicalData.description,
+                isHistorical: true
+            };
+        }
+        
+        // Existing API call for near-term dates
+        const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
         try {
             const response = await fetch(apiUrl);
-            const data = await response.json();
-            return data;
+            return await response.json();
         } catch (error) {
             console.error('Error fetching weather data:', error);
             return null;
         }
     }
     
-    // Process weather data to get daily forecasts
-    function processWeatherData(weatherData, tripDuration) {
-        if (!weatherData || !weatherData.list) return [];
-        
-        const dailyForecasts = [];
-        const uniqueDays = new Set();
-        
-        // Only get the first 5 days of forecast
-        const maxDays = Math.min(5, tripDuration);
-        
-        for (const forecast of weatherData.list) {
-            // Extract the date (without time)
-            const date = new Date(forecast.dt * 1000);
-            const dateString = date.toISOString().split('T')[0];
-            
-            // Skip if we already have this day or have enough days
-            if (uniqueDays.has(dateString) || dailyForecasts.length >= maxDays) continue;
-            
-            // Find min/max temp for the day
-            const dayForecasts = weatherData.list.filter(f => {
-                const forecastDate = new Date(f.dt * 1000).toISOString().split('T')[0];
-                return forecastDate === dateString;
-            });
-            
-            const temps = dayForecasts.map(f => f.main.temp);
-            const minTemp = Math.min(...temps);
-            const maxTemp = Math.max(...temps);
-            
-            // Get the most common weather condition for the day
-            const conditions = dayForecasts.map(f => f.weather[0].icon);
-            const conditionCount = {};
-            conditions.forEach(cond => {
-                conditionCount[cond] = (conditionCount[cond] || 0) + 1;
-            });
-            const mostCommonCondition = Object.keys(conditionCount).reduce((a, b) => 
-                conditionCount[a] > conditionCount[b] ? a : b
-            );
-            
-            // Format date to "Mon, Oct 15"
-            const formattedDate = date.toLocaleDateString('en-US', { 
-                weekday: 'short', 
-                month: 'short', 
-                day: 'numeric' 
-            });
-            
-            dailyForecasts.push({
-                day: `Day ${dailyForecasts.length + 1}`,
-                date: formattedDate,
-                min_temp: Math.round(minTemp),
-                max_temp: Math.round(maxTemp),
-                condition: mostCommonCondition,
-                description: dayForecasts[0].weather[0].description
-            });
-            
-            uniqueDays.add(dateString);
+    // Update processWeatherForDate function
+    function processWeatherForDate(weatherData, date) {
+        // Handle historical data object
+        if (weatherData.min_temp !== undefined) {
+            return weatherData;
         }
         
-        return dailyForecasts;
+        // Existing processing for API data
+        if (!weatherData || !weatherData.list) return null;
+        
+        const dateString = new Date(date).toISOString().split('T')[0];
+        const dayForecasts = weatherData.list.filter(f => {
+            const forecastDate = new Date(f.dt * 1000).toISOString().split('T')[0];
+            return forecastDate === dateString;
+        });
+        
+        if (dayForecasts.length === 0) return null;
+        
+        const temps = dayForecasts.map(f => f.main.temp);
+        const minTemp = Math.min(...temps);
+        const maxTemp = Math.max(...temps);
+        
+        const conditions = dayForecasts.map(f => f.weather[0].icon);
+        const conditionCount = {};
+        conditions.forEach(cond => {
+            conditionCount[cond] = (conditionCount[cond] || 0) + 1;
+        });
+        const mostCommonCondition = Object.keys(conditionCount).reduce((a, b) => 
+            conditionCount[a] > conditionCount[b] ? a : b
+        );
+        
+        return {
+            min_temp: Math.round(minTemp),
+            max_temp: Math.round(maxTemp),
+            condition: mostCommonCondition,
+            description: dayForecasts[0].weather[0].description,
+            isHistorical: false
+        };
     }
-    
+
+    // Update getTripWeather function
+    async function getTripWeather(destination, startDate, tripDuration) {
+        // Limit to maximum 7 days
+        const maxDays = Math.min(tripDuration, 7);
+        const tripDates = getTripDates(startDate, maxDays);
+        let weatherForecast = [];
+        let hasHistorical = false;
+        let hasForecast = false;
+        
+        for (const date of tripDates) {
+            const weatherData = await getWeatherData(destination, date);
+            let weatherForDate;
+            
+            if (weatherData?.min_temp !== undefined) {
+                // Historical data
+                weatherForDate = weatherData;
+                hasHistorical = true;
+            } else {
+                // API data
+                weatherForDate = processWeatherForDate(weatherData, date);
+                hasForecast = true;
+            }
+            
+            if (weatherForDate) {
+                const formattedDate = new Date(date).toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                weatherForecast.push({
+                    day: `Day ${weatherForecast.length + 1}`,
+                    date: formattedDate,
+                    min_temp: weatherForDate.min_temp,
+                    max_temp: weatherForDate.max_temp,
+                    condition: weatherForDate.condition,
+                    description: weatherForDate.description,
+                    isHistorical: weatherForDate.isHistorical
+                });
+            }
+        }
+        
+        // Collapse historical data into one summary if needed
+        if (hasHistorical && !hasForecast) {
+            return [createHistoricalSummary(weatherForecast)];
+        }
+        
+        return weatherForecast;
+    }
+
+    // Display luggage based on the airline
     function displayLuggageInfo(luggageType, airline) {
         const luggageInfo = document.getElementById('luggageInfo');
         const luggageEmoji = document.getElementById('luggageEmoji');
@@ -695,7 +1016,37 @@
         }
     }
 
-    // Generate weather cards
+    // Create historical summary card
+    function createHistoricalSummary(forecast) {
+        const minTemp = Math.min(...forecast.map(day => day.min_temp));
+        const maxTemp = Math.max(...forecast.map(day => day.max_temp));
+        
+        // Find most common condition
+        const conditionCount = {};
+        forecast.forEach(day => {
+            conditionCount[day.condition] = (conditionCount[day.condition] || 0) + 1;
+        });
+        const mostCommonCondition = Object.keys(conditionCount).reduce((a, b) => 
+            conditionCount[a] > conditionCount[b] ? a : b
+        );
+        
+        // Get date range
+        const startDate = forecast[0].date;
+        const endDate = forecast[forecast.length - 1].date;
+        
+        return {
+            day: "Entire Trip",
+            date: `${startDate} to ${endDate}`,
+            min_temp: minTemp,
+            max_temp: maxTemp,
+            condition: mostCommonCondition,
+            description: "Historical weather pattern",
+            isHistorical: true,
+            isSummary: true
+        };
+    }
+
+    // Update generateWeatherCards function
     function generateWeatherCards(weatherForecast) {
         const container = document.getElementById('weatherCards');
         container.innerHTML = '';
@@ -703,9 +1054,17 @@
         weatherForecast.forEach(day => {
             const card = document.createElement('div');
             card.className = 'weather-card';
+            
+            let dateInfo = day.date;
+            if (day.isHistorical && !day.isSummary) {
+                dateInfo = "Historical Average";
+            }
+            
             card.innerHTML = `
                 <h4>${day.day}</h4>
-                <div>${day.date}</div>
+                <div>${dateInfo}</div>
+                ${day.isHistorical && !day.isSummary ? '<div><em>Typical weather pattern</em></div>' : ''}
+                ${day.isSummary ? '<div><em>Historical weather summary</em></div>' : ''}
                 <div class="weather-icon">
                     <i class="fas ${weatherIcons[day.condition] || 'fa-cloud'}"></i>
                 </div>
@@ -849,13 +1208,11 @@
         const tripDuration = parseInt(document.getElementById('tripDuration').value);
         const travelType = document.getElementById('travelType').value;
         const luggageType = document.getElementById('luggageType').value;
-        const airline = document.getElementById('flightAgency').value; // Get airline
+        const airline = document.getElementById('flightAgency').value;
+        const startDate = document.getElementById('travelDates').value;
         
         // Update destination name in results
         document.getElementById('destinationName').textContent = destinationName;
-        document.getElementById('destinationText').textContent = destinationName;
-        document.getElementById('tripTypeText').textContent = travelType;
-        document.getElementById('durationText').textContent = tripDuration;
         
         // Show loading indicator
         document.getElementById('loadingIndicator').style.display = 'block';
@@ -863,13 +1220,10 @@
         
         try {
             // Get weather data
-            const weatherData = await getWeatherData(destination);
-            if (!weatherData) {
+            const weatherForecast = await getTripWeather(destination, startDate, tripDuration);
+            if (!weatherForecast || weatherForecast.length === 0) {
                 throw new Error('Failed to get weather data');
             }
-            
-            // Process weather data
-            const weatherForecast = processWeatherData(weatherData, tripDuration);
             
             // Generate weather cards
             generateWeatherCards(weatherForecast);
@@ -879,6 +1233,30 @@
             
             // Display luggage info
             displayLuggageInfo(luggageType, airline);
+            
+            // Update packing tips with dates info
+            const formattedStartDate = new Date(startDate).toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + tripDuration - 1);
+            const formattedEndDate = endDate.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            
+            const packingTipsElement = document.querySelector('.packing-tips');
+            packingTipsElement.innerHTML = `
+                <p><strong>Packing Tips:</strong> Based on your ${travelType} to ${destinationName} 
+                from ${formattedStartDate} to ${formattedEndDate} (${tripDuration} days), 
+                we recommend packing versatile items that can be mixed and matched. 
+                Remember to travel light and consider donating unused items at our SustainABag locations!</p>
+                ${tripDuration > 5 ? 
+                    '<p><strong>Note:</strong> Weather forecast beyond 5 days is based on historical averages</p>' : 
+                    ''
+                }
+            `;
             
             // Show results
             document.getElementById('loadingIndicator').style.display = 'none';
