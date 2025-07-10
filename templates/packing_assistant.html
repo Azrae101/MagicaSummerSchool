@@ -1,0 +1,806 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - SustainABag{% endblock %}
+
+{% block styles %}
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #eafaf1;
+            --medium-green: #c8e6c9;
+            --dark-green: #1b5e20;
+            --accent-green: #388e3c;
+            --text-dark: #333;
+            --text-light: #555;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-green);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5%;
+            background-color: var(--primary-green);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .navbar-brand img {
+            height: 45px;
+        }
+        
+        .navbar-brand-text {
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-links a:hover, .user-menu-btn:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .navbar-links a.active {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        /* User Dropdown Menu */
+        .user-menu {
+            position: relative;
+        }
+
+        .user-menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        
+        .user-menu-btn .fa-user-circle {
+            font-size: 1.5rem;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 120%;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .dropdown-content a {
+            color: var(--text-dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .dropdown-content a i {
+            width: 15px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        /* Show the dropdown menu (used with JavaScript) */
+        .show {
+            display: block;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* Flash messages styling */
+        .flashes {
+            list-style: none;
+            padding: 20px;
+            margin: 0;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #fff;
+        }
+        .alert-success { background-color: #2e7d32; }
+        .alert-error { background-color: #c62828; }
+        .alert-info { background-color: #0277bd; }
+        .alert-warning { background-color: #f9a825; color: #000; }
+        
+        /* General content and footer */
+        .content {
+            flex: 1;
+        }
+        
+        .footer {
+            background: var(--primary-green);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        /* Packing Assistant Styles */
+        .page-header {
+            background: linear-gradient(to right, var(--primary-green), var(--dark-green));
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin: 0 0 15px 0;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto 40px;
+            padding: 0 30px;
+        }
+        
+        .packing-form {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-green);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(56, 142, 60, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .results-container {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            margin-top: 30px;
+        }
+        
+        .weather-section {
+            margin-bottom: 30px;
+        }
+        
+        .weather-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: var(--primary-green);
+        }
+        
+        .weather-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .weather-card {
+            background: var(--light-green);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .weather-card h4 {
+            margin-bottom: 10px;
+            color: var(--dark-green);
+        }
+        
+        .weather-icon {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            color: #0277bd;
+        }
+        
+        .temp-range {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        
+        .packing-section {
+            margin-top: 40px;
+        }
+        
+        .packing-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: var(--primary-green);
+        }
+        
+        .packing-tips {
+            background: #e8f5e9;
+            border-left: 4px solid var(--accent-green);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .packing-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .category {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            border-top: 4px solid var(--accent-green);
+        }
+        
+        .category h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: var(--dark-green);
+        }
+        
+        .items-list {
+            list-style: none;
+        }
+        
+        .items-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: center;
+        }
+        
+        .items-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .items-list input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-green);
+        }
+        
+        .items-list label {
+            flex: 1;
+            cursor: pointer;
+        }
+        
+        .print-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .packing-form, .results-container {
+                padding: 25px;
+            }
+            
+            .page-header {
+                padding: 60px 20px 40px;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .weather-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <img src="{{ url_for('static', filename='notextlogo.png') }}" alt="SustainABag Logo">
+            <span class="navbar-brand-text">SustainABag</span>
+        </a>
+        
+        <div class="navbar-links" id="navbarLinks">
+            <a href="/" {% if request.path == '/' %}class="active"{% endif %}>
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="/about" {% if request.path == '/about' %}class="active"{% endif %}>
+                <i class="fas fa-info-circle"></i> About Us
+            </a>
+            <a href="/how_to_donate" {% if request.path == '/how_to_donate' %}class="active"{% endif %}>
+                <i class="fas fa-hand-holding-heart"></i> How to Donate
+            </a>
+            <a href="#" class="active">
+                <i class="fas fa-suitcase"></i> Packing Assistant
+            </a>
+
+            {% if g.user %}
+                <a href="{{ url_for('rewards') }}" {% if request.path == url_for('rewards') %}class="active"{% endif %}><i class="fas fa-award"></i> Rewards</a>
+                
+                <div class="user-menu">
+                    <button onclick="toggleDropdown()" class="user-menu-btn">
+                        <i class="fas fa-user-circle"></i> 
+                        <span>
+                        {% if g.user.first_name %}
+                            {{ g.user.first_name }}
+                        {% elif g.user.account_name %}
+                            {{ g.user.account_name }}
+                        {% else %}
+                            {{ g.user.username }}
+                        {% endif %}
+                        </span>
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="{{ url_for('profile_settings') }}"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+
+            {% else %}
+                <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Log In</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="content">
+        <header class="page-header">
+            <h1>Packing Assistant</h1>
+            <p>Travel light and smart with our intelligent packing tool</p>
+        </header>
+        
+        <div class="container">
+            <div class="packing-form">
+                <h2 style="color: var(--dark-green); margin-top: 0; margin-bottom: 25px;">
+                    Plan Your Perfect Packing List
+                </h2>
+                
+                <form id="packingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="destination">Destination City</label>
+                            <input type="text" id="destination" placeholder="e.g. Paris, London, Tokyo" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="travelDates">Travel Dates</label>
+                            <input type="text" id="travelDates" placeholder="Select travel dates" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tripDuration">Trip Duration (days)</label>
+                            <input type="number" id="tripDuration" min="1" max="90" placeholder="e.g. 7" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="travelType">Type of Travel</label>
+                            <select id="travelType" required>
+                                <option value="">Select travel type</option>
+                                <option value="business">Business</option>
+                                <option value="vacation">Vacation</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="beach">Beach Holiday</option>
+                                <option value="city">City Break</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="travelers">Number of Travelers</label>
+                            <input type="number" id="travelers" min="1" max="10" placeholder="e.g. 2" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="luggageType">Luggage Type</label>
+                            <select id="luggageType" required>
+                                <option value="">Select luggage type</option>
+                                <option value="carry-on">Carry-on Only</option>
+                                <option value="checked">Checked Baggage</option>
+                                <option value="backpack">Backpack</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block">
+                        <i class="fas fa-suitcase"></i> Generate Packing List
+                    </button>
+                </form>
+            </div>
+            
+            <div class="results-container" id="resultsContainer">
+                <div class="weather-section">
+                    <div class="weather-header">
+                        <i class="fas fa-cloud-sun fa-2x"></i>
+                        <h2>Weather Forecast for <span id="destinationName">Paris</span></h2>
+                    </div>
+                    
+                    <div class="weather-cards" id="weatherCards">
+                        <!-- Weather cards will be generated here -->
+                    </div>
+                </div>
+                
+                <div class="packing-section">
+                    <div class="packing-header">
+                        <i class="fas fa-list-check fa-2x"></i>
+                        <h2>Recommended Packing List</h2>
+                    </div>
+                    
+                    <div class="packing-tips">
+                        <p><strong>Packing Tips:</strong> Based on your <span id="tripTypeText">vacation</span> to <span id="destinationText">Paris</span> for <span id="durationText">7</span> days, we recommend packing versatile items that can be mixed and matched. Remember to travel light and consider donating unused items at our SustainABag locations!</p>
+                    </div>
+                    
+                    <div class="packing-list" id="packingList">
+                        <!-- Packing list will be generated here -->
+                    </div>
+                    
+                    <div class="print-section">
+                        <button class="btn" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print Your Packing List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>SustainABag &copy; 2023 | Travel Light, Give Back, Shop Sustainably</p>
+    </footer>
+    
+    <script>
+        // Mock weather data for different cities
+        const weatherData = {
+            "paris": [
+                { day: "Day 1", date: "Mon, Oct 15", high: 18, low: 10, condition: "partly-cloudy", description: "Partly cloudy with light winds" },
+                { day: "Day 2", date: "Tue, Oct 16", high: 20, low: 12, condition: "sunny", description: "Sunny and pleasant" },
+                { day: "Day 3", date: "Wed, Oct 17", high: 17, low: 11, condition: "rain", description: "Light showers expected" },
+                { day: "Day 4", date: "Thu, Oct 18", high: 16, low: 9, condition: "cloudy", description: "Overcast throughout the day" },
+                { day: "Day 5", date: "Fri, Oct 19", high: 19, low: 12, condition: "sunny", description: "Sunny with clear skies" }
+            ],
+            "london": [
+                { day: "Day 1", date: "Mon, Oct 15", high: 15, low: 8, condition: "rain", description: "Rain throughout the day" },
+                { day: "Day 2", date: "Tue, Oct 16", high: 16, low: 9, condition: "cloudy", description: "Cloudy with chance of drizzle" },
+                { day: "Day 3", date: "Wed, Oct 17", high: 14, low: 7, condition: "rain", description: "Heavy showers expected" },
+                { day: "Day 4", date: "Thu, Oct 18", high: 17, low: 10, condition: "partly-cloudy", description: "Partly cloudy" },
+                { day: "Day 5", date: "Fri, Oct 19", high: 18, low: 11, condition: "sunny", description: "Sunny intervals" }
+            ],
+            "tokyo": [
+                { day: "Day 1", date: "Mon, Oct 15", high: 22, low: 15, condition: "sunny", description: "Sunny and clear" },
+                { day: "Day 2", date: "Tue, Oct 16", high: 24, low: 16, condition: "sunny", description: "Warm and sunny" },
+                { day: "Day 3", date: "Wed, Oct 17", high: 21, low: 14, condition: "partly-cloudy", description: "Partly cloudy" },
+                { day: "Day 4", date: "Thu, Oct 18", high: 20, low: 14, condition: "rain", description: "Light rain showers" },
+                { day: "Day 5", date: "Fri, Oct 19", high: 23, low: 16, condition: "sunny", description: "Sunny and pleasant" }
+            ],
+            "new york": [
+                { day: "Day 1", date: "Mon, Oct 15", high: 19, low: 11, condition: "sunny", description: "Sunny and crisp" },
+                { day: "Day 2", date: "Tue, Oct 16", high: 17, low: 10, condition: "cloudy", description: "Cloudy with light winds" },
+                { day: "Day 3", date: "Wed, Oct 17", high: 15, low: 8, condition: "rain", description: "Rain likely in the afternoon" },
+                { day: "Day 4", date: "Thu, Oct 18", high: 16, low: 9, condition: "partly-cloudy", description: "Partly cloudy" },
+                { day: "Day 5", date: "Fri, Oct 19", high: 18, low: 12, condition: "sunny", description: "Sunny and pleasant" }
+            ],
+            "default": [
+                { day: "Day 1", date: "Mon, Oct 15", high: 20, low: 12, condition: "sunny", description: "Sunny and pleasant" },
+                { day: "Day 2", date: "Tue, Oct 16", high: 19, low: 11, condition: "partly-cloudy", description: "Partly cloudy" },
+                { day: "Day 3", date: "Wed, Oct 17", high: 18, low: 10, condition: "cloudy", description: "Cloudy skies" },
+                { day: "Day 4", date: "Thu, Oct 18", high: 21, low: 13, condition: "sunny", description: "Warm and sunny" },
+                { day: "Day 5", date: "Fri, Oct 19", high: 20, low: 12, condition: "partly-cloudy", description: "Partly cloudy with light breeze" }
+            ]
+        };
+        
+        // Packing list templates
+        const packingLists = {
+            essentials: [
+                "Passport/ID",
+                "Travel documents",
+                "Wallet with local currency",
+                "Credit/debit cards",
+                "Travel insurance info",
+                "Hotel reservation details",
+                "Emergency contacts",
+                "Prescription medications"
+            ],
+            clothing: [
+                "T-shirts (5-7)",
+                "Long-sleeve shirts (2-3)",
+                "Sweater or fleece",
+                "Light jacket",
+                "Pants/jeans (3-4)",
+                "Shorts (if warm)",
+                "Pajamas",
+                "Underwear (1 per day +1)",
+                "Socks (1 per day +1)",
+                "Comfortable walking shoes",
+                "Dress shoes (if needed)",
+                "Belt"
+            ],
+            accessories: [
+                "Sunglasses",
+                "Hat or cap",
+                "Scarf (if cool)",
+                "Light gloves (if cool)",
+                "Watch",
+                "Jewelry (minimal)",
+                "Umbrella or rain jacket"
+            ],
+            toiletries: [
+                "Toothbrush & toothpaste",
+                "Shampoo & conditioner",
+                "Soap or body wash",
+                "Deodorant",
+                "Razor & shaving cream",
+                "Hairbrush/comb",
+                "Hair styling products",
+                "Moisturizer",
+                "Sunscreen",
+                "Lip balm",
+                "Makeup (if applicable)",
+                "Nail clippers",
+                "First-aid kit"
+            ],
+            electronics: [
+                "Phone & charger",
+                "Power bank",
+                "Headphones",
+                "Camera & charger",
+                "Travel adapter",
+                "Laptop & charger (if needed)",
+                "E-reader (optional)"
+            ],
+            misc: [
+                "Reusable water bottle",
+                "Snacks",
+                "Travel pillow",
+                "Eye mask",
+                "Ear plugs",
+                "Book or magazine",
+                "Travel guide/map",
+                "Reusable shopping bag"
+            ]
+        };
+        
+        // Weather condition icons
+        const weatherIcons = {
+            "sunny": "fa-sun",
+            "partly-cloudy": "fa-cloud-sun",
+            "cloudy": "fa-cloud",
+            "rain": "fa-cloud-rain",
+            "thunderstorm": "fa-bolt",
+            "snow": "fa-snowflake"
+        };
+        
+        // Initialize date picker functionality
+        document.getElementById('travelDates').addEventListener('focus', function() {
+            this.type = 'date';
+        });
+        
+        // Form submission handler
+        document.getElementById('packingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const destination = document.getElementById('destination').value.toLowerCase();
+            const tripDuration = parseInt(document.getElementById('tripDuration').value);
+            const travelType = document.getElementById('travelType').value;
+            
+            // Update destination name in results
+            document.getElementById('destinationName').textContent = capitalizeFirstLetter(destination);
+            document.getElementById('destinationText').textContent = capitalizeFirstLetter(destination);
+            document.getElementById('tripTypeText').textContent = travelType;
+            document.getElementById('durationText').textContent = tripDuration;
+            
+            // Get weather data
+            const weather = weatherData[destination] || weatherData.default;
+            
+            // Generate weather cards
+            const weatherCardsContainer = document.getElementById('weatherCards');
+            weatherCardsContainer.innerHTML = '';
+            
+            // Only show up to 5 days of weather
+            const daysToShow = Math.min(5, tripDuration);
+            
+            for (let i = 0; i < daysToShow; i++) {
+                const dayData = weather[i] || weatherData.default[i];
+                
+                const card = document.createElement('div');
+                card.className = 'weather-card';
+                card.innerHTML = `
+                    <h4>${dayData.day}</h4>
+                    <div>${dayData.date}</div>
+                    <div class="weather-icon">
+                        <i class="fas ${weatherIcons[dayData.condition]}"></i>
+                    </div>
+                    <div class="temp-range">
+                        ${dayData.high}°C / ${dayData.low}°C
+                    </div>
+                    <div>${dayData.description}</div>
+                `;
+                
+                weatherCardsContainer.appendChild(card);
+            }
+            
+            // Generate packing list
+            const packingListContainer = document.getElementById('packingList');
+            packingListContainer.innerHTML = '';
+            
+            for (const category in packingLists) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                
+                let categoryName;
+                switch(category) {
+                    case 'essentials': categoryName = 'Travel Essentials'; break;
+                    case 'clothing': categoryName = 'Clothing'; break;
+                    case 'accessories': categoryName = 'Accessories'; break;
+                    case 'toiletries': categoryName = 'Toiletries'; break;
+                    case 'electronics': categoryName = 'Electronics'; break;
+                    case 'misc': categoryName = 'Miscellaneous'; break;
+                    default: categoryName = category;
+                }
+                
+                categoryDiv.innerHTML = `<h3>${categoryName}</h3><ul class="items-list"></ul>`;
+                
+                const list = categoryDiv.querySelector('.items-list');
+                
+                packingLists[category].forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <input type="checkbox" id="${item.replace(/\s+/g, '-')}">
+                        <label for="${item.replace(/\s+/g, '-')}">${item}</label>
+                    `;
+                    list.appendChild(li);
+                });
+                
+                packingListContainer.appendChild(categoryDiv);
+            }
+            
+            // Show results
+            document.getElementById('resultsContainer').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Helper function to capitalize first letter
+        function capitalizeFirstLetter(string) {
+            return string.split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+    </script>
+{% endblock %}

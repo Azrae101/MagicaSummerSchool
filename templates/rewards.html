@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Rewards - SustainABag</title>
+{% extends 'base.html' %}
+
+{% block title %}Profile Settings{% endblock %}
+
+{% block styles %}
     <style>
         :root {
             --primary-green: #2e7d32;
@@ -455,6 +454,9 @@
             }
         }
     </style>
+{% endblock %}
+
+{% block content %}
 </head>
 <body>
     <!-- Header Section -->
@@ -463,9 +465,25 @@
         <p>Your sustainable choices are making a difference - and earning you great rewards!</p>
         
         <div class="user-welcome">
-            <div class="user-avatar">MJ</div>
+            <div class="user-avatar">
+                {% if user.first_name and user.last_name %}
+                    {{ user.first_name[0] }}{{ user.last_name[0] }}
+                {% elif user.account_name %}
+                    {{ user.account_name[0] }}
+                {% else %}
+                    {{ user.username[0] }}
+                {% endif %}
+            </div>
             <div>
-                <h3>Welcome, Maria Johnson!</h3>
+                <h3>Welcome, 
+                    {% if user.first_name and user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% elif user.account_name %}
+                        {{ user.account_name }}
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}!
+                </h3>
                 <p>Frequent Traveler Member</p>
             </div>
         </div>
@@ -690,5 +708,4 @@
             });
         });
     </script>
-</body>
-</html>
+{% endblock %}

@@ -80,10 +80,15 @@ def about():
 def donate():
     return render_template('how_to_donate.html')
 
+@app.route('/packing')
+def packing():
+    return render_template('packing_assistant.html')
+
 @app.route('/rewards')
 @login_required
 def rewards():
-    return render_template('rewards.html')
+    # Pass the user object from the global context (g) to the template
+    return render_template('rewards.html', user=g.user)
 
 @app.route('/profile/settings', methods=['GET', 'POST'])
 @login_required
@@ -100,9 +105,11 @@ def profile_settings():
         db.execute("UPDATE user SET first_name=?, last_name=?, email=?, account_name=? WHERE id=?",
                    (first_name, last_name, email, account_name, user_id))
         db.commit()
-        flash('Profile updated successfully.')
+        flash('Profile updated successfully.', 'success')
+        # Redirect back to the same page to show the changes
         return redirect(url_for('profile_settings'))
 
+    # For GET request, fetch the latest user data
     user = db.execute("SELECT * FROM user WHERE id=?", (user_id,)).fetchone()
     return render_template('profile_settings.html', user=user)
 
@@ -145,24 +152,33 @@ def register():
     if request.method == 'POST':
         db = get_db()
         username = request.form['username']
+        password = request.form['password']
+        password2 = request.form['password2']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        account_name = request.form['account_name']
 
-        if len(username) > 10:
-            flash("Your username is too long, please try again")
+        if len(username) > 15:
+            flash("Username must be 15 characters or less.", 'error')
             return render_template('register.html')
 
         if db.execute("SELECT * FROM user WHERE username=?", (username,)).fetchone():
-            flash(f"Username '{username}' already taken", 'error')
+            flash(f"Username '{username}' is already taken.", 'error')
             return render_template('register.html')
 
-        if request.form['password1'] != request.form['password2']:
-            flash("Passwords do not match, try again.", 'error')
+        if password != password2:
+            flash("Passwords do not match.", 'error')
             return render_template('register.html')
 
-        hashed_password = hashlib.sha256(request.form['password1'].encode()).hexdigest()
-        db.execute("INSERT INTO user (username, password) VALUES (?, ?)", (username, hashed_password))
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        db.execute(
+            "INSERT INTO user (username, password, first_name, last_name, email, account_name) VALUES (?, ?, ?, ?, ?, ?)",
+            (username, hashed_password, first_name, last_name, email, account_name)
+        )
         db.commit()
 
-        flash(f"User '{username}' registered, you can now log in.", 'info')
+        flash(f"Account created for '{username}'. You can now log in.", 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html')

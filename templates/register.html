@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 80px 20px;
+    padding: 60px 20px;
     min-height: 80vh;
     background: var(--light-green);
   }
@@ -18,7 +18,7 @@
     padding: 40px 30px;
     border-radius: 16px;
     box-shadow: var(--shadow);
-    max-width: 450px;
+    max-width: 480px;
     width: 100%;
   }
 
@@ -34,15 +34,19 @@
     flex-direction: column;
   }
 
-  .register-card label {
-    margin-top: 15px;
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
     margin-bottom: 5px;
     font-weight: 600;
     color: var(--text-dark);
+    display: block;
   }
 
-  .register-card input[type="text"],
-  .register-card input[type="password"] {
+  .form-group input {
+    width: 100%;
     padding: 10px 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -50,8 +54,7 @@
     transition: border-color 0.3s ease;
   }
 
-  .register-card input[type="text"]:focus,
-  .register-card input[type="password"]:focus {
+  .form-group input:focus {
     border-color: var(--primary-green);
     outline: none;
   }
@@ -88,14 +91,40 @@
   <div class="register-card">
     <h2>Create Your Account</h2>
     <form action="{{ url_for('register') }}" method="post">
-      <label for="username">Username</label>
-      <input id="username" type="text" name="username" required>
+      <div class="form-group">
+        <label for="username">Username *</label>
+        <input id="username" type="text" name="username" required>
+      </div>
 
-      <label for="password1">Password</label>
-      <input id="password1" type="password" name="password1" required>
+      <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input id="first_name" type="text" name="first_name">
+      </div>
 
-      <label for="password2">Confirm Password</label>
-      <input id="password2" type="password" name="password2" required>
+      <div class="form-group">
+        <label for="last_name">Last Name</label>
+        <input id="last_name" type="text" name="last_name">
+      </div>
+
+      <div class="form-group">
+        <label for="account_name">Account Name (Display Name)</label>
+        <input id="account_name" type="text" name="account_name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input id="password" type="password" name="password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password2">Confirm Password *</label>
+        <input id="password2" type="password" name="password2" required>
+      </div>
 
       <input type="submit" value="Register">
     </form>
