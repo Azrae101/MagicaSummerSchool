@@ -33,26 +33,6 @@
             flex-direction: column;
         }
         
-        /* Navbar */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 5%;
-            background-color: var(--primary-green);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-        }
-        
         .navbar-brand img {
             height: 45px;
         }
@@ -67,6 +47,7 @@
             display: flex;
             gap: 25px;
             align-items: center;
+            order: 2; /* Links second on desktop */
         }
         
         .navbar-links a {
@@ -112,9 +93,9 @@
 
         .dropdown-content {
             display: none;
-            position: absolute;
-            right: 0;
-            top: 120%;
+            position: relative;
+            top: 0;
+            width: 100%;
             background-color: white;
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -148,8 +129,88 @@
             display: block;
         }
 
+        /* Navbar - Updated for mobile responsiveness */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5%;
+            background-color: var(--primary-green);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            min-width: 0; /* Prevent overflow */
+        }
+
+        /* Mobile menu button - hidden by default */
         .mobile-menu-btn {
             display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 3%;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .navbar-links {
+                display: none;
+                position: absolute;
+                top: 100%; /* Position below navbar */
+                right: 0;
+                background-color: var(--primary-green);
+                min-width: 200px;
+                box-shadow: var(--shadow);
+                border-radius: 0 0 8px 8px;
+                z-index: 1000;
+                padding: 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .navbar-links.active {
+                display: flex;
+            }
+            
+            .user-menu {
+                width: 100%;
+            }
+            
+            .dropdown-content {
+                position: relative;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+                background-color: var(--dark-green);
+                border-radius: 8px;
+                margin-top: 10px;
+            }
+            
+            .dropdown-content a {
+                color: white;
+            }
+            
+            .dropdown-content a:hover {
+                background-color: var(--accent-green);
+            }
         }
 
         /* Flash messages styling */
@@ -276,7 +337,12 @@
             <img src="{{ url_for('static', filename='notextlogo.png') }}" alt="SustainABag Logo">
             <span class="navbar-brand-text">SustainABag</span>
         </a>
-        
+
+        <!-- Mobile menu button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+
         <div class="navbar-links" id="navbarLinks">
             <a href="/" {% if request.path == '/' %}class="active"{% endif %}>
                 <i class="fas fa-home"></i> Home
@@ -313,7 +379,6 @@
                         <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-
             {% else %}
                 <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Log In</a>
@@ -376,6 +441,24 @@
     </footer>
     
     <script>
+        /* Toggle mobile menu */
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navbarLinks = document.getElementById('navbarLinks');
+        
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navbarLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (navbarLinks.classList.contains('active') && 
+                !navbarLinks.contains(e.target) && 
+                !mobileMenuBtn.contains(e.target)) {
+                navbarLinks.classList.remove('active');
+            }
+        });
+
         /* Toggles the dropdown menu on click */
         function toggleDropdown() {
             document.getElementById("myDropdown").classList.toggle("show");
